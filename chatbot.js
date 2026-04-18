@@ -307,7 +307,7 @@ When someone wants to go to a section, tell them you're navigating there and als
 
       // Handle special quick reply actions
       if (text === "Sanush Resume ↗") {
-        window.open("https://docs.google.com/document/d/1NP63upCGfuzwisRGXTUcg31oOQ9g7RU3N-kiwQb_W4Y/edit?tab=t.0", "_blank");
+        window.open("./Sanush%20Resume.pdf", "_blank");
       } else if (text === "Open GitHub ↗") {
         window.open("https://github.com/SA-Sanush", "_blank");
       } else if (text === "Open LinkedIn ↗") {

@@ -45,7 +45,7 @@ Facts you may use:
 - Email: sasanush86@gmail.com
 - GitHub: https://github.com/SA-Sanush
 - LinkedIn: https://www.linkedin.com/in/sa-sanush/
-- Resume: https://docs.google.com/document/d/1NP63upCGfuzwisRGXTUcg31oOQ9g7RU3N-kiwQb_W4Y/edit?tab=t.0
+- Resume: ./Sanush%20Resume.pdf
 - Availability: Open to work and collaboration
 
 Portfolio sections:
