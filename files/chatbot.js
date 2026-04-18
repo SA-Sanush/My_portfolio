@@ -249,7 +249,59 @@ When someone wants to go to a section, tell them you're navigating there and als
     }
     return text;
   }
+  function normalizeMessage(text) {
+    return String(text || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
+  function hasPhrase(text, phrase) {
+    return normalizeMessage(text).includes(normalizeMessage(phrase));
+  }
+
+  function getLocalReply(text) {
+    const normalized = normalizeMessage(text);
+
+    if (!normalized) {
+      return `I'm here whenever you're ready, ${userName}. Ask me about Sanush's skills, education, contact details, or portfolio sections.`;
+    }
+
+    if (hasPhrase(normalized, "contact") || hasPhrase(normalized, "email") || hasPhrase(normalized, "hire") || hasPhrase(normalized, "collaborate")) {
+      return `You can contact Sanush at <a href="mailto:sasanush86@gmail.com">sasanush86@gmail.com</a>. His <a href="https://github.com/SA-Sanush" target="_blank">GitHub</a> and <a href="https://www.linkedin.com/in/sa-sanush/" target="_blank">LinkedIn</a> are also available. [NAV:contact]`;
+    }
+
+    if (hasPhrase(normalized, "resume") || hasPhrase(normalized, "cv")) {
+      return `You can open Sanush's resume here: <a href="./Sanush%20Resume.pdf" target="_blank">Sanush Resume</a>.`; 
+    }
+
+    if (hasPhrase(normalized, "skill") || hasPhrase(normalized, "tech") || hasPhrase(normalized, "stack") || hasPhrase(normalized, "react") || hasPhrase(normalized, "javascript") || hasPhrase(normalized, "html") || hasPhrase(normalized, "css")) {
+      return `Sanush works with HTML5, CSS3, JavaScript, React JS, Tailwind CSS, Bootstrap, Next JS, Three.js, Figma, Python, MySQL, Git, and GitHub. [NAV:skills]`;
+    }
+
+    if (hasPhrase(normalized, "education") || hasPhrase(normalized, "college") || hasPhrase(normalized, "degree") || hasPhrase(normalized, "mca") || hasPhrase(normalized, "bca")) {
+      return `Sanush is currently pursuing his MCA at Lourdes Matha College of Science and Technology in Trivandrum (2025-2027). He also completed a BCA at Symbiosis Institute of Computer Studies & Research, Pune with a 7.0 CGPA, plus strong 12th and 10th scores. [NAV:education]`;
+    }
+
+    if (hasPhrase(normalized, "who is sanush") || hasPhrase(normalized, "about sanush") || hasPhrase(normalized, "who is he") || hasPhrase(normalized, "about")) {
+      return `Sanush is a front end developer based in Thiruvananthapuram, Kerala. He's pursuing MCA, and he builds clean, interactive web experiences with both design and development in mind. [NAV:about]`;
+    }
+
+    if (hasPhrase(normalized, "navigate") || hasPhrase(normalized, "go to") || hasPhrase(normalized, "show") || hasPhrase(normalized, "open section") || hasPhrase(normalized, "scroll to")) {
+      if (hasPhrase(normalized, "about")) return `Taking you to the About section. [NAV:about]`;
+      if (hasPhrase(normalized, "skills")) return `Taking you to the Skills section. [NAV:skills]`;
+      if (hasPhrase(normalized, "education")) return `Taking you to the Education section. [NAV:education]`;
+      if (hasPhrase(normalized, "contact")) return `Taking you to the Contact section. [NAV:contact]`;
+      return `I can take you to About, Skills, Education, or Contact. Which one would you like?`;
+    }
+
+    if (hasPhrase(normalized, "thank you") || hasPhrase(normalized, "thanks")) {
+      return `You're welcome, ${userName}! If you'd like, I can also take you to a section or tell you more about Sanush.`;
+    }
+
+    return `I'm having trouble reaching the AI backend right now. In the meantime, I can still answer basic questions about Sanush's skills, education, contact info, or sections on the page.`;
+  }
   /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      SEND MESSAGE
   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
@@ -273,17 +325,21 @@ When someone wants to go to a section, tell them you're navigating there and als
         })
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
       removeTyping();
 
       let reply = "";
-      if (data.ok && typeof data.reply === "string" && data.reply.trim()) {
+      if (response.ok && data.ok && typeof data.reply === "string" && data.reply.trim()) {
+        reply = data.reply.trim();
+      } else if (response.ok && typeof data.reply === "string" && data.reply.trim()) {
         reply = data.reply.trim();
       } else if (data.content && data.content[0] && data.content[0].text) {
         // Legacy fallback for direct Anthropic responses
         reply = data.content[0].text;
+      } else if (data.message) {
+        reply = `${getLocalReply(text)} <br /><br><em>Backend note: ${data.message}</em>`;
       } else {
-        reply = "I'm having trouble connecting right now. Please try again or reach Sanush directly at <a href='mailto:sasanush86@gmail.com'>sasanush86@gmail.com</a>.";
+        reply = getLocalReply(text);
       }
 
       // Handle navigation
@@ -319,7 +375,8 @@ When someone wants to go to a section, tell them you're navigating there and als
 
     } catch (err) {
       removeTyping();
-      appendBotMessage(`Oops! Something went wrong, ${userName}. Please try again or contact Sanush directly at <a href="mailto:sasanush86@gmail.com">sasanush86@gmail.com</a>.`);
+      const fallback = getLocalReply(text);
+      appendBotMessage(`${fallback} <br /><br><em>Backend note: ${err && err.message ? err.message : 'unable to reach the chat service'}</em>`);
     }
 
     isBotTyping = false;
