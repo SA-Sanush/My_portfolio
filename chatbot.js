@@ -40,8 +40,7 @@
       email: "sasanush86@gmail.com",
       github: "https://github.com/SA-Sanush",
       linkedin: "https://www.linkedin.com/in/sa-sanush/",
-      resume:
-        "https://docs.google.com/document/d/1NP63upCGfuzwisRGXTUcg31oOQ9g7RU3N-kiwQb_W4Y/edit?tab=t.0",
+      resume: "./files/Sanush%20Resume.pdf",
       availability: "Open to work and collaboration"
     }
   };
@@ -77,13 +76,13 @@
       id: "contact",
       keywords: ["contact", "email", "mail", "hire", "reach", "linkedin", "github", "collaborate", "work with"],
       reply: () =>
-        `You can contact Sanush at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. His <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a>, <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a>, and <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">resume</a> are also available, and he is open to work and collaboration. [NAV:contact]`
+        `You can contact Sanush at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. His <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a>, <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a>, and <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">Sanush Resume</a> are also available, and he is open to work and collaboration. [NAV:contact]`
     },
     {
       id: "resume",
       keywords: ["resume", "cv"],
       reply: () =>
-        `You can open Sanush's resume here: <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">View Resume</a>. If you'd like, I can also tell you about his skills, education, or contact details.`
+        `You can open Sanush's resume here: <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">Sanush Resume</a>. If you'd like, I can also tell you about his skills, education, or contact details.`
     },
     {
       id: "location",
@@ -229,7 +228,7 @@
         "What are his skills?",
         "Tell me about his education",
         "How can I contact him?",
-        "Open resume"
+        "Open Sanush Resume"
       ]);
     }, 400);
   }
@@ -420,7 +419,7 @@
 
     if (hasPhrase(normalized, "contact sanush") || hasPhrase(normalized, "how can i contact him")) {
       lastTopic = "contact";
-      return `You can contact Sanush at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. His <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a>, <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a>, and <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">resume</a> are also available, and he is open to work and collaboration. [NAV:contact]`;
+      return `You can contact Sanush at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. His <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a>, <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a>, and <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">Sanush Resume</a> are also available, and he is open to work and collaboration. [NAV:contact]`;
     }
 
     if (hasPhrase(normalized, "what are his skills") || hasPhrase(normalized, "view his skills")) {
@@ -480,7 +479,7 @@
     }
 
     if (includesAny(normalized, ["education", "college", "degree", "mca", "bca"])) {
-      return ["Tell me more", "What are his skills?", "Open resume"];
+      return ["Tell me more", "What are his skills?", "Open Sanush Resume"];
     }
 
     if (includesAny(normalized, ["contact", "email", "hire", "linkedin", "github"])) {
@@ -499,7 +498,7 @@
   }
 
   function handleQuickAction(text) {
-    if (text === "Open resume") {
+    if (text === "Open Sanush Resume") {
       window.open(KNOWLEDGE_BASE.contact.resume, "_blank");
     } else if (text === "Open GitHub") {
       window.open(KNOWLEDGE_BASE.contact.github, "_blank");
