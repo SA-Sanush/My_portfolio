@@ -213,6 +213,7 @@ When someone wants to go to a section, tell them you're navigating there and als
       chip.style.animationDelay = `${i * 0.06}s`;
       chip.addEventListener("click", () => {
         wrap.remove();
+        if (handleQuickAction(opt)) return;
         handleUserMessage(opt);
       });
       // extend cursor ring
@@ -229,6 +230,36 @@ When someone wants to go to a section, tell them you're navigating there and als
 
   function scrollToBottom() {
     messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
+  }
+
+  function handleQuickAction(text) {
+    const lower = String(text || "").toLowerCase();
+
+    if (lower.includes("resume")) {
+      appendUserMessage(text);
+      window.open("./Sanush%20Resume.pdf", "_blank");
+      return true;
+    }
+
+    if (lower.includes("github")) {
+      appendUserMessage(text);
+      window.open("https://github.com/SA-Sanush", "_blank");
+      return true;
+    }
+
+    if (lower.includes("linkedin")) {
+      appendUserMessage(text);
+      window.open("https://www.linkedin.com/in/sa-sanush/", "_blank");
+      return true;
+    }
+
+    if (lower.includes("email")) {
+      appendUserMessage(text);
+      window.open("mailto:sasanush86@gmail.com");
+      return true;
+    }
+
+    return false;
   }
 
   /* ════════════════════════════
