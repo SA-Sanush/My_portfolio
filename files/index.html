@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S A SANUSH â€” Front End Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200;300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="sanush_portfolio.css" />
+  </head>
+  <body>
+    <!-- â•â• CURSOR â•â• -->
+    <div id="cur"></div>
+    <div id="cur-ring"></div>
+
+    <!-- â•â• LOADING SCREEN â•â• -->
+    <div id="loader">
+      <canvas id="loader-canvas"></canvas>
+      <div class="loader-inner">
+        <div class="loader-sub">Initializing</div>
+        <div class="loader-name"><span class="lo-y">S A</span> SANUSH</div>
+        <div class="loader-role">FRONT END DEVELOPER</div>
+        <div class="loader-bar-wrap">
+          <div class="loader-bar" id="lbar"></div>
+        </div>
+        <div class="loader-pct" id="lpct">0%</div>
+      </div>
+    </div>
+
+    <!-- â•â• BG THREE.JS CANVAS â•â• -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- â•â• MAIN APP â•â• -->
+    <div id="app">
+      <!-- NAV -->
+      <nav>
+        <div class="nav-logo">S<span>A</span>S</div>
+        <a href="#hero" class="nav-home" aria-label="Return to homepage">
+          <span class="nav-home-core"></span>
+          <span class="nav-home-text">Home</span>
+        </a>
+        <div class="nav-links">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#education" class="nav-link">Education</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        <div class="nav-actions">
+          <div class="nav-badge"><span class="dot"></span>Available 2025</div>
+          <a href="#contact" class="nav-cta"
+            >Contact
+            <div class="arr">â†’</div></a
+          >
+        </div>
+      </nav>
+
+      <!-- â•â• HERO â•â• -->
+      <section id="hero">
+        <div class="hero-bg-text">SANUSH</div>
+        <div class="hero-content">
+          <div class="hero-eyebrow reveal d1">
+            Front End Developer Â· Kerala, India
+          </div>
+          <div class="hero-name reveal d2">
+            S A<br /><span class="y">SANUSH</span>
+          </div>
+          <div class="hero-name-mirror reveal d2">S A SANUSH</div>
+          <div class="hero-role-row reveal d3">
+            <div class="hero-role-text">Front</div>
+            <div class="hero-pill">End</div>
+            <div class="hero-role-text">Developer</div>
+          </div>
+          <p class="hero-desc reveal d4">
+            MCA student at Lourdes Matha College, Trivandrum â€” blending academic
+            foundations with real-world creative development. Passionate about
+            building clean, interactive, and memorable web experiences.
+          </p>
+          <div class="hero-btns reveal d5">
+            <a
+              href="./Sanush%20Resume.pdf"
+              target="_blank"
+              class="btn-y"
+              >View Resume â†—</a
+            >
+            <a href="#contact" class="btn-ghost">Get In Touch â†’</a>
+          </div>
+        </div>
+        <div class="hero-scroll">
+          <div class="scroll-line"></div>
+          <span>Scroll</span>
+        </div>
+      </section>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar reveal">
+        <div class="stat-item">
+          <div class="stat-num">10+</div>
+          <div class="stat-lbl">Tech Skills</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat-item">
+          <div class="stat-num">7.0</div>
+          <div class="stat-lbl">BCA CGPA</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat-item">
+          <div class="stat-num">87%</div>
+          <div class="stat-lbl">10th Score</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat-item">
+          <div class="stat-num">77%</div>
+          <div class="stat-lbl">12th Score</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat-item">
+          <div class="stat-num">3+</div>
+          <div class="stat-lbl">Years Coding</div>
+        </div>
+      </div>
+
+      <!-- MARQUEE 1 -->
+      <div class="marquee-wrap">
+        <div class="marquee-inner">
+          <span class="mq-item hi">HTML5</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">CSS3</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">JavaScript</span
+          ><span class="mq-dot">â˜…</span>
+          <span class="mq-item">Tailwind CSS</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">React JS</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">Three JS</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">Figma</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">Bootstrap</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">Python</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">MySQL</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">Git & GitHub</span
+          ><span class="mq-dot">â˜…</span> <span class="mq-item">Next JS</span
+          ><span class="mq-dot">â˜…</span>
+          <!-- duplicate for seamless loop -->
+          <span class="mq-item hi">HTML5</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">CSS3</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">JavaScript</span
+          ><span class="mq-dot">â˜…</span>
+          <span class="mq-item">Tailwind CSS</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">React JS</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">Three JS</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">Figma</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">Bootstrap</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">Python</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item">MySQL</span><span class="mq-dot">â˜…</span>
+          <span class="mq-item hi">Git & GitHub</span
+          ><span class="mq-dot">â˜…</span> <span class="mq-item">Next JS</span
+          ><span class="mq-dot">â˜…</span>
+        </div>
+      </div>
+
+      <!-- â•â• ABOUT â•â• -->
+      <section class="section" id="about">
+        <div class="sec-tag reveal">About Me</div>
+        <div class="sec-h reveal d1">WHO<br />I <span class="ou">AM</span></div>
+        <div class="about-grid">
+          <div class="about-card reveal-l d2">
+            <p class="about-body">
+              I'm <strong style="color: var(--y)">Sanush</strong>, an MCA
+              student at Lourdes Matha College of Science and Technology,
+              Trivandrum, Kerala. With a BCA background from Symbiosis
+              Institute, Pune â€” I bring both theoretical depth and practical
+              hands-on experience to every project I touch. <br /><br />
+              I'm passionate about blending design and development, creating
+              interfaces that don't just work â€” they
+              <em style="color: rgba(255, 224, 0, 0.8)">feel</em> exceptional.
+              From pixel-perfect CSS to interactive Three.js 3D â€” I love pushing
+              the web forward.
+            </p>
+            <div class="about-stats">
+              <div class="a-stat">
+                <div class="a-stat-n">10+</div>
+                <div class="a-stat-l">Skills Mastered</div>
+              </div>
+              <div class="a-stat">
+                <div class="a-stat-n">7.0</div>
+                <div class="a-stat-l">BCA CGPA</div>
+              </div>
+              <div class="a-stat">
+                <div class="a-stat-n">87%</div>
+                <div class="a-stat-l">10th Grade</div>
+              </div>
+              <div class="a-stat">
+                <div class="a-stat-n">MCA</div>
+                <div class="a-stat-l">Pursuing 2025â€“27</div>
+              </div>
+            </div>
+          </div>
+          <div class="about-visual reveal-r d3">
+            <div
+              class="av-ring"
+              style="
+                width: 250px;
+                height: 250px;
+                animation: spin 18s linear infinite;
+              "
+            ></div>
+            <div
+              class="av-ring"
+              style="
+                width: 190px;
+                height: 190px;
+                animation: spin 12s linear infinite reverse;
+              "
+            ></div>
+            <div class="av-circle">SS</div>
+            <div class="avail-tag">
+              <span class="dot"></span>Open to Opportunities
+            </div>
+            <div class="av-bg-text">SAS</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â•â• MARQUEE 2 â•â• -->
+      <div class="marquee-wrap" style="border-top: none">
+        <div class="marquee-inner2">
+          <span class="mq-item">FRONT END DEVELOPMENT</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item hi">UI / UX DESIGN</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item">RESPONSIVE LAYOUTS</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item hi">3D WEB EXPERIENCES</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item">DATABASE MANAGEMENT</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item hi">VERSION CONTROL</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item">FRONT END DEVELOPMENT</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item hi">UI / UX DESIGN</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item">RESPONSIVE LAYOUTS</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item hi">3D WEB EXPERIENCES</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item">DATABASE MANAGEMENT</span
+          ><span class="mq-dot">âœ¦</span>
+          <span class="mq-item hi">VERSION CONTROL</span
+          ><span class="mq-dot">âœ¦</span>
+        </div>
+      </div>
+
+      <!-- â•â• 3D SHOWCASE â•â• -->
+      <div id="showcase">
+        <div class="showcase-shell">
+          <div class="showcase-stage">
+            <div class="showcase-label reveal">
+              <div class="sl-tag">âœ¦ Interactive 3D</div>
+              <div class="showcase-title">
+                TECH IN<br /><span class="showcase-outline">MOTION</span>
+              </div>
+              <div class="showcase-sub">Drag to explore Â· Scroll to zoom</div>
+            </div>
+            <canvas id="showcase-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- â•â• TECH STACK â•â• -->
+      <div class="tech-row reveal">
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/html5/FFE000" alt="HTML5 logo" loading="lazy" /></div>
+          <div class="tech-nm">HTML5</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/css/FFE000" alt="CSS3 logo" loading="lazy" /></div>
+          <div class="tech-nm">CSS3</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/javascript/FFE000" alt="JavaScript logo" loading="lazy" /></div>
+          <div class="tech-nm">JavaScript</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/react/FFE000" alt="React JS logo" loading="lazy" /></div>
+          <div class="tech-nm">React JS</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/nextdotjs/FFE000" alt="Next JS logo" loading="lazy" /></div>
+          <div class="tech-nm">Next JS</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/tailwindcss/FFE000" alt="Tailwind CSS logo" loading="lazy" /></div>
+          <div class="tech-nm">Tailwind</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/threedotjs/FFE000" alt="Three JS logo" loading="lazy" /></div>
+          <div class="tech-nm">Three JS</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/figma/FFE000" alt="Figma logo" loading="lazy" /></div>
+          <div class="tech-nm">Figma</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/python/FFE000" alt="Python logo" loading="lazy" /></div>
+          <div class="tech-nm">Python</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/mysql/FFE000" alt="MySQL logo" loading="lazy" /></div>
+          <div class="tech-nm">MySQL</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-ico"><img src="https://cdn.simpleicons.org/github/FFE000" alt="GitHub logo" loading="lazy" /></div>
+          <div class="tech-nm">GitHub</div>
+        </div>
+      </div>
+
+      <!-- â•â• SKILLS â•â• -->
+      <section class="section" id="skills">
+        <div class="sec-tag reveal">Technical Skills</div>
+        <div class="sec-h reveal d1">
+          MY<br /><span class="ou">SKILLS</span>
+        </div>
+        <div class="skills-wrap">
+          <div class="skills-grid" id="skills-grid">
+            <!-- JS rendered -->
+          </div>
+        </div>
+      </section>
+
+      <!-- â•â• EDUCATION â•â• -->
+      <section class="section" id="education">
+        <div class="sec-tag reveal">Academic Background</div>
+        <div class="sec-h reveal d1">EDU<span class="ou">CATION</span></div>
+        <div class="edu-timeline">
+          <div class="edu-card reveal d2">
+            <div class="edu-badge">
+              <div class="edu-badge-yr">PG</div>
+              <div class="edu-badge-dur">2025â€“27</div>
+            </div>
+            <div>
+              <div class="edu-deg">Post Graduation</div>
+              <div class="edu-school">Master's of Computer Applications</div>
+              <div class="edu-loc">
+                Lourdes Matha College of Science & Technology<br />Trivandrum,
+                Kerala
+              </div>
+            </div>
+            <div class="edu-score">
+              <div class="edu-score-n">MCA</div>
+              <div class="edu-score-l">In Progress</div>
+            </div>
+          </div>
+
+          <div class="edu-card reveal d3">
+            <div class="edu-badge">
+              <div class="edu-badge-yr">UG</div>
+              <div class="edu-badge-dur">2022â€“25</div>
+            </div>
+            <div>
+              <div class="edu-deg">Under Graduation</div>
+              <div class="edu-school">Bachelor's of Computer Applications</div>
+              <div class="edu-loc">
+                Symbiosis Institute of Computer Studies & Research<br />Pune,
+                Maharashtra
+              </div>
+            </div>
+            <div class="edu-score">
+              <div class="edu-score-n">7.0</div>
+              <div class="edu-score-l">Avg CGPA</div>
+            </div>
+          </div>
+
+          <div class="edu-card reveal d4">
+            <div class="edu-badge">
+              <div class="edu-badge-yr">XII</div>
+              <div class="edu-badge-dur">PCMB</div>
+            </div>
+            <div>
+              <div class="edu-deg">Higher Secondary Â· 12th Grade</div>
+              <div class="edu-school">
+                Bharatiya Vidya Bhavan Sr. Sec. School
+              </div>
+              <div class="edu-loc">
+                Thiruvananthapuram, Kerala<br />Physics Â· Chemistry Â· Biology Â·
+                Mathematics Â· English
+              </div>
+            </div>
+            <div class="edu-score">
+              <div class="edu-score-n">77%</div>
+              <div class="edu-score-l">Percentage</div>
+            </div>
+          </div>
+
+          <div class="edu-card reveal d5">
+            <div class="edu-badge">
+              <div class="edu-badge-yr">X</div>
+              <div class="edu-badge-dur">SSLC</div>
+            </div>
+            <div>
+              <div class="edu-deg">Secondary School Â· 10th Grade</div>
+              <div class="edu-school">
+                Bharatiya Vidya Bhavan Sr. Sec. School
+              </div>
+              <div class="edu-loc">Thiruvananthapuram, Kerala</div>
+            </div>
+            <div class="edu-score">
+              <div class="edu-score-n">87%</div>
+              <div class="edu-score-l">Percentage</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â•â• BIG CTA â•â• -->
+      <div class="big-cta">
+        <div class="big-cta-bg"><div class="big-cta-glow"></div></div>
+        <div class="big-cta-inner reveal">
+          <div class="big-cta-small">Ready to collaborate?</div>
+          <div class="big-cta-text" style="display: block; position: relative">
+            CONTACT<br /><span class="ou">ME</span>
+            <a href="mailto:sasanush86@gmail.com" class="cta-btn-overlay">
+              Let's Talk
+              <div class="ca">â†’</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMAIL BAND -->
+      <div class="email-band">
+        <div class="email-inner">
+          <span class="em-item">GOT AN IDEA?</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item hi">sasanush86@gmail.com</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item">LET'S BUILD SOMETHING</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item hi">sasanush86@gmail.com</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item">FRONT END DEVELOPER</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item hi">sasanush86@gmail.com</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item">GOT AN IDEA?</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item hi">sasanush86@gmail.com</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item">LET'S BUILD SOMETHING</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item hi">sasanush86@gmail.com</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item">FRONT END DEVELOPER</span
+          ><span class="em-cross">âœ¦</span>
+          <span class="em-item hi">sasanush86@gmail.com</span
+          ><span class="em-cross">âœ¦</span>
+        </div>
+      </div>
+
+      <!-- â•â• CONTACT â•â• -->
+      <section class="section" id="contact">
+        <div class="sec-tag reveal">Get In Touch</div>
+        <div class="sec-h reveal d1">
+          LET'S<br /><span class="ou">TALK</span>
+        </div>
+        <div class="contact-grid">
+          <div class="c-card reveal-l d2">
+            <div class="sec-tag" style="margin-bottom: 20px">Contact Info</div>
+            <div class="c-info-row">
+              <div class="c-info-lbl">Email</div>
+              <div class="c-info-val">
+                <a href="mailto:sasanush86@gmail.com">sasanush86@gmail.com</a>
+              </div>
+            </div>
+            <div class="c-info-row">
+              <div class="c-info-lbl">Location</div>
+              <div class="c-info-val">Thiruvananthapuram, Kerala, India</div>
+            </div>
+            <div class="c-info-row">
+              <div class="c-info-lbl">Availability</div>
+              <div class="c-info-val" style="color: var(--y)">
+                âœ¦ Open to Work & Collaboration
+              </div>
+            </div>
+            <div class="c-info-row">
+              <div class="c-info-lbl">Currently</div>
+              <div class="c-info-val">Pursuing MCA Â· 2025â€“2027</div>
+            </div>
+            <div class="socials">
+              <a href="https://github.com/SA-Sanush" target="_blank" class="soc-btn"
+                >âŸ¨/âŸ© GitHub</a
+              >
+              <a href="https://www.linkedin.com/in/sa-sanush/" target="_blank" class="soc-btn"
+                >in LinkedIn</a
+              >
+              <a href="mailto:sasanush86@gmail.com" class="soc-btn">âœ‰ Email</a>
+            </div>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; gap: 20px"
+            class="reveal-r d3"
+          >
+            <a
+              href="./Sanush%20Resume.pdf"
+              target="_blank"
+              class="resume-cta"
+            >
+              <div class="r-left">
+                <div class="r-big">VIEW<br />RESUME</div>
+                <div class="r-sm">Sanush Resume â†—</div>
+              </div>
+              <div class="r-arrow">â†—</div>
+            </a>
+            <div class="msg-card">
+              <div class="sec-tag" style="margin-bottom: 0">Quick Note</div>
+              <p class="msg-body">
+                Whether you have a project in mind, want to collaborate on
+                something creative, or just want to say hello â€” I'd love to hear
+                from you. I'm always excited to explore new opportunities and
+                challenges.
+              </p>
+              <a
+                href="mailto:sasanush86@gmail.com"
+                class="btn-y"
+                style="margin-top: 24px; display: inline-flex"
+                >Send an Email â†’</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="f-copy">Â© 2025 S A Sanush. All rights reserved.</div>
+        <div class="f-links">
+          <a href="#about" class="f-link">About</a>
+          <a href="#skills" class="f-link">Skills</a>
+          <a href="#education" class="f-link">Education</a>
+          <a href="#contact" class="f-link">Contact</a>
+        </div>
+        <div class="f-built">Built with HTML Â· CSS Â· JS Â· Three.js</div>
+      </footer>
+    </div>
+    <!-- /#app -->
+
+    <script src="sanush_portfolio.js"></script>
+
+    <!-- â•â• AI CHATBOT â•â• -->
+
+    <!-- Floating trigger button -->
+    <button id="chat-trigger" aria-label="Open AI Assistant">
+      <span class="chat-notif">1</span>
+      <!-- Chat icon -->
+      <svg class="icon-chat" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12v2z"/>
+      </svg>
+      <!-- Close icon -->
+      <svg class="icon-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+
+    <!-- Chat window -->
+    <div id="chat-window" role="dialog" aria-label="AI Portfolio Assistant">
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="chat-avatar">SAS</div>
+        <div class="chat-header-info">
+          <div class="chat-header-name">Sanush's AI Assistant</div>
+          <div class="chat-header-sub"><span>â—</span>Online â€” here to help</div>
+        </div>
+        <button class="chat-close-btn" id="chat-close-btn" aria-label="Close chat">âœ•</button>
+      </div>
+
+      <!-- Name capture screen -->
+      <div id="chat-name-screen">
+        <div class="name-screen-icon">ðŸ‘‹</div>
+        <div class="name-screen-title">Welcome to<br /><span>Sanush's Portfolio</span></div>
+        <p class="name-screen-sub">Before we start, what's your name? I'd love to greet you properly.</p>
+        <div class="name-input-row">
+          <input type="text" id="chat-name-input" placeholder="Your first nameâ€¦" maxlength="40" autocomplete="off" />
+          <button id="chat-name-submit">Let's Go â†’</button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div id="chat-messages" class="hidden"></div>
+
+      <!-- Input area -->
+      <div class="chat-input-area hidden" id="chat-input-area">
+        <textarea id="chat-input" placeholder="Ask me anythingâ€¦" rows="1"></textarea>
+        <button id="chat-send" aria-label="Send">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <script src="chatbot.js"></script>
+  </body>
+</html>
