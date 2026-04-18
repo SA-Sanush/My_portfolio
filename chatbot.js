@@ -1,161 +1,92 @@
-/* SANUSH PORTFOLIO - SMART ASSISTANT */
+/* ═══════════════════════════════════════════════════════════
+   SANUSH PORTFOLIO — AI CHATBOT
+   Powered by Claude (Anthropic API)
+═══════════════════════════════════════════════════════════ */
 
 (function () {
   "use strict";
 
-  const KNOWLEDGE_BASE = {
-    profile: {
-      fullName: "S A Sanush",
-      shortName: "Sanush",
-      role: "Front End Developer",
-      location: "Thiruvananthapuram, Kerala, India",
-      status:
-        "currently pursuing MCA at Lourdes Matha College of Science and Technology, Trivandrum (2025-2027)",
-      previousDegree:
-        "completed a BCA at Symbiosis Institute of Computer Studies & Research, Pune (2022-2025) with a 7.0 CGPA",
-      summary:
-        "He enjoys building clean, interactive, and memorable web experiences that blend design and development.",
-      quote:
-        "Passionate about blending design and development, creating interfaces that don't just work - they feel exceptional."
-    },
-    education: [
-      "MCA - Lourdes Matha College of Science and Technology, Trivandrum (2025-2027), currently pursuing",
-      "BCA - Symbiosis Institute of Computer Studies & Research, Pune (2022-2025), CGPA 7.0",
-      "12th Grade (PCMB) - Bharatiya Vidya Bhavan Senior Secondary School, Thiruvananthapuram, 77%",
-      "10th Grade (SSLC) - Bharatiya Vidya Bhavan Senior Secondary School, Thiruvananthapuram, 87%"
-    ],
-    skills: {
-      frontend: ["HTML5", "CSS3", "JavaScript", "React JS", "Tailwind CSS", "Bootstrap", "Next JS"],
-      creative: ["Three.js", "Figma"],
-      other: ["Python", "MySQL", "Git", "GitHub"]
-    },
-    stats: [
-      "10+ tech skills",
-      "3+ years of coding",
-      "BCA CGPA: 7.0",
-      "10th score: 87%",
-      "12th score: 77%"
-    ],
-    contact: {
-      email: "sasanush86@gmail.com",
-      github: "https://github.com/SA-Sanush",
-      linkedin: "https://www.linkedin.com/in/sa-sanush/",
-      resume: "./files/Sanush%20Resume.pdf",
-      availability: "Open to work and collaboration"
-    }
-  };
+  /* ── Portfolio knowledge base passed to Claude ── */
+  const PORTFOLIO_CONTEXT = `
+You are an AI assistant embedded in S A Sanush's personal portfolio website. You help visitors learn about Sanush and navigate the portfolio. Always be friendly, concise, and professional. Use the user's name whenever you naturally can.
 
-  const SECTION_ALIASES = {
-    hero: ["hero", "home", "top", "start"],
-    about: ["about", "background", "profile"],
-    skills: ["skills", "skill", "tech", "stack"],
-    education: ["education", "study", "college", "degree"],
-    contact: ["contact", "email", "hire", "reach"]
-  };
+== ABOUT SANUSH ==
+Full Name: S A Sanush (Sanush)
+Role: Front End Developer
+Location: Thiruvananthapuram, Kerala, India
+Status: Currently pursuing MCA (Master of Computer Applications) at Lourdes Matha College of Science and Technology, Trivandrum, Kerala (2025–2027)
+Previous Degree: BCA (Bachelor of Computer Applications) from Symbiosis Institute of Computer Studies & Research, Pune, Maharashtra (2022–2025) — CGPA: 7.0
+Quote: "Passionate about blending design and development, creating interfaces that don't just work — they feel exceptional."
 
-  const TOPIC_RULES = [
-    {
-      id: "about",
-      keywords: ["who is sanush", "about sanush", "background", "introduce", "summary", "profile", "who is he"],
-      reply: userName =>
-        `${KNOWLEDGE_BASE.profile.shortName} is a ${KNOWLEDGE_BASE.profile.role} from ${KNOWLEDGE_BASE.profile.location}. ${capitalize(KNOWLEDGE_BASE.profile.status)} and ${KNOWLEDGE_BASE.profile.previousDegree}. ${KNOWLEDGE_BASE.profile.summary} [NAV:about]`
-    },
-    {
-      id: "skills",
-      keywords: ["skills", "skill", "tech", "stack", "frontend", "react", "javascript", "html", "css", "tailwind", "bootstrap", "next", "three", "figma", "python", "mysql", "git"],
-      reply: userName =>
-        `${safeName(userName)}, Sanush works with ${KNOWLEDGE_BASE.skills.frontend.join(", ")}, and also uses ${KNOWLEDGE_BASE.skills.creative.join(" and ")} for creative work. He complements that with ${KNOWLEDGE_BASE.skills.other.join(", ")}, which gives him a solid mix of UI, interaction, and practical development skills. [NAV:skills]`
-    },
-    {
-      id: "education",
-      keywords: ["education", "study", "college", "degree", "mca", "bca", "school", "cgpa", "marks"],
-      reply: () =>
-        `Sanush is currently pursuing his MCA at Lourdes Matha College of Science and Technology in Trivandrum for 2025-2027. Before that, he completed his BCA at Symbiosis Institute of Computer Studies & Research in Pune with a 7.0 CGPA, and earlier scored 77% in 12th and 87% in 10th. [NAV:education]`
-    },
-    {
-      id: "contact",
-      keywords: ["contact", "email", "mail", "hire", "reach", "linkedin", "github", "collaborate", "work with"],
-      reply: () =>
-        `You can contact Sanush at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. His <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a>, <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a>, and <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">Sanush Resume</a> are also available, and he is open to work and collaboration. [NAV:contact]`
-    },
-    {
-      id: "resume",
-      keywords: ["resume", "cv"],
-      reply: () =>
-        `You can open Sanush's resume here: <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">Sanush Resume</a>. If you'd like, I can also tell you about his skills, education, or contact details.`
-    },
-    {
-      id: "location",
-      keywords: ["location", "where", "based", "city", "kerala", "trivandrum", "thiruvananthapuram", "india"],
-      reply: () =>
-        `Sanush is based in ${KNOWLEDGE_BASE.profile.location}. His portfolio highlights both his academic journey and his front-end development work. [NAV:hero]`
-    },
-    {
-      id: "projects",
-      keywords: ["project", "projects", "work samples", "portfolio work"],
-      reply: () =>
-        `This portfolio mainly focuses on Sanush's background, education, skills, and contact details, while reflecting his interest in interactive web experiences. For project discussions or collaboration, the best next step is to email him at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>.`
-    },
-    {
-      id: "site",
-      keywords: ["this site", "this website", "site about", "website about", "what is this site about", "what is this website about", "portfolio about"],
-      reply: () =>
-        `This site is Sanush's personal portfolio. It introduces who he is, shows his skills and education, shares ways to contact him, and helps visitors explore his work profile as a front-end developer and MCA student. [NAV:hero]`
-    },
-    {
-      id: "stats",
-      keywords: ["stats", "score", "numbers", "experience", "years"],
-      reply: () =>
-        `Here are a few quick highlights: ${KNOWLEDGE_BASE.stats.join(", ")}. Together they show a strong academic base and growing front-end experience.`
-    }
-  ];
+== EDUCATION ==
+- MCA — Lourdes Matha College of Science & Technology, Trivandrum (2025–2027) — Currently pursuing
+- BCA — Symbiosis Institute of Computer Studies & Research, Pune (2022–2025) — CGPA: 7.0
+- 12th Grade (PCMB) — Bharatiya Vidya Bhavan Sr. Sec. School, Thiruvananthapuram — 77%
+- 10th Grade (SSLC) — Bharatiya Vidya Bhavan Sr. Sec. School, Thiruvananthapuram — 87%
 
-  const trigger = document.getElementById("chat-trigger");
-  const win = document.getElementById("chat-window");
-  const closeBtn = document.getElementById("chat-close-btn");
-  const nameScreen = document.getElementById("chat-name-screen");
-  const nameInput = document.getElementById("chat-name-input");
-  const nameSubmit = document.getElementById("chat-name-submit");
-  const messagesEl = document.getElementById("chat-messages");
-  const inputArea = document.getElementById("chat-input-area");
-  const chatInput = document.getElementById("chat-input");
-  const sendBtn = document.getElementById("chat-send");
+== SKILLS ==
+Frontend: HTML5, CSS3, JavaScript, React JS, Tailwind CSS, Bootstrap, Next JS
+3D & Creative: Three.js
+Design: Figma
+Backend/Other: Python, MySQL, Git & GitHub
+Experience: 3+ years of coding, 10+ tech skills mastered
 
-  let isOpen = false;
-  let userName = "";
-  let chatHistory = [];
-  let isBotTyping = false;
-  let lastTopic = "";
+== STATS ==
+- 10+ Tech Skills
+- BCA CGPA: 7.0
+- 10th Score: 87%
+- 12th Score: 77%
+- 3+ Years Coding
 
-  async function getBackendReply() {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        userName,
-        messages: chatHistory
-      })
-    });
+== CONTACT ==
+Email: sasanush86@gmail.com
+GitHub: https://github.com/SA-Sanush
+LinkedIn: https://www.linkedin.com/in/sa-sanush/
+Resume: ./Sanush%20Resume.pdf
+Availability: Open to Work & Collaboration
 
-    const data = await response.json().catch(() => ({}));
+== PORTFOLIO SECTIONS (for navigation guidance) ==
+- Hero (#hero) — Introduction, name, role, CTA buttons
+- About (#about) — Who Sanush is, background, about stats
+- Skills (#skills) — All technical skills listed as cards with proficiency
+- Education (#education) — Full academic history
+- Contact (#contact) — Email, GitHub, LinkedIn, Resume link, availability
 
-    if (!response.ok) {
-      const message =
-        data && typeof data.message === "string" && data.message.trim()
-          ? data.message.trim()
-          : "The AI backend is not available right now.";
-      throw new Error(message);
-    }
+== NAVIGATION INSTRUCTIONS ==
+When someone wants to go to a section, tell them you're navigating there and also programmatically scroll there using special navigation commands in your reply. To trigger navigation, include this exact pattern at the END of your reply (it will be hidden from the user): [NAV:sectionid] where sectionid is one of: hero, about, skills, education, contact.
 
-    if (!data || typeof data.reply !== "string" || !data.reply.trim()) {
-      throw new Error("The AI backend returned an empty reply.");
-    }
+== BEHAVIOR RULES ==
+1. Always address the user by their name naturally (not every single sentence, but regularly).
+2. Keep responses concise — 2–4 sentences usually, unless more detail is genuinely needed.
+3. If someone wants to contact Sanush, provide the email and social links.
+4. If asked to navigate somewhere, do it and confirm.
+5. Never make up information not listed here.
+6. Be warm, enthusiastic, and reflective of Sanush's creative developer personality.
+7. If someone asks about projects, mention that Sanush is an MCA student passionate about web experiences and they can reach him directly for project collaboration.
+8. Format links as clickable HTML anchor tags like: <a href="URL" target="_blank">link text</a>
+`;
 
-    return data.reply.trim();
-  }
+  /* ── DOM refs ── */
+  const trigger       = document.getElementById("chat-trigger");
+  const win           = document.getElementById("chat-window");
+  const closeBtn      = document.getElementById("chat-close-btn");
+  const nameScreen    = document.getElementById("chat-name-screen");
+  const nameInput     = document.getElementById("chat-name-input");
+  const nameSubmit    = document.getElementById("chat-name-submit");
+  const messagesEl    = document.getElementById("chat-messages");
+  const inputArea     = document.getElementById("chat-input-area");
+  const chatInput     = document.getElementById("chat-input");
+  const sendBtn       = document.getElementById("chat-send");
 
+  /* ── State ── */
+  let isOpen       = false;
+  let userName     = "";
+  let chatHistory  = [];          // [{role, content}]
+  let isBotTyping  = false;
+
+  /* ════════════════════════════
+     OPEN / CLOSE
+  ════════════════════════════ */
   function openChat() {
     isOpen = true;
     trigger.classList.add("open");
@@ -173,73 +104,72 @@
     win.classList.remove("visible");
   }
 
-  trigger.addEventListener("click", () => (isOpen ? closeChat() : openChat()));
+  trigger.addEventListener("click", () => isOpen ? closeChat() : openChat());
   closeBtn.addEventListener("click", closeChat);
 
+  /* Extend cursor big ring to chatbot elements */
   function extendCursorRing() {
     const curRing = document.getElementById("cur-ring");
     if (!curRing) return;
-
-    [trigger, closeBtn, nameSubmit, sendBtn, ...document.querySelectorAll(".qr-chip, .chat-close-btn")].forEach(
-      el => {
-        if (!el) return;
-        el.addEventListener("mouseenter", () => curRing.classList.add("big"));
-        el.addEventListener("mouseleave", () => curRing.classList.remove("big"));
-      }
-    );
+    [trigger, closeBtn, nameSubmit, sendBtn, ...document.querySelectorAll(".qr-chip, .chat-close-btn")].forEach(el => {
+      if (!el) return;
+      el.addEventListener("mouseenter", () => curRing.classList.add("big"));
+      el.addEventListener("mouseleave", () => curRing.classList.remove("big"));
+    });
   }
 
+  /* ════════════════════════════
+     NAME CAPTURE
+  ════════════════════════════ */
   function submitName() {
     const val = nameInput.value.trim();
     if (!val) {
       nameInput.style.borderColor = "rgba(255,68,68,0.6)";
-      setTimeout(() => {
-        nameInput.style.borderColor = "";
-      }, 1000);
+      setTimeout(() => nameInput.style.borderColor = "", 1000);
       return;
     }
-
     userName = val.charAt(0).toUpperCase() + val.slice(1);
     nameScreen.classList.add("hidden");
     messagesEl.classList.remove("hidden");
     inputArea.classList.remove("hidden");
-
+    // Remove notification dot
     const notif = trigger.querySelector(".chat-notif");
     if (notif) notif.remove();
-
     greetUser();
     extendCursorRing();
   }
 
   nameSubmit.addEventListener("click", submitName);
-  nameInput.addEventListener("keydown", event => {
-    if (event.key === "Enter") submitName();
-  });
+  nameInput.addEventListener("keydown", e => { if (e.key === "Enter") submitName(); });
 
+  /* ════════════════════════════
+     GREETING
+  ════════════════════════════ */
   function greetUser() {
     const greeting = getTimeGreeting();
-    appendBotMessage(
-      `${greeting}, <strong>${escapeHtml(userName)}</strong>! Welcome to Sanush's portfolio. I can answer questions about his background, skills, education, contact details, and help you navigate the site.`
-    );
-
+    const greetMsg = `${greeting}, <strong>${userName}</strong>! 👋 Welcome to Sanush's portfolio. I'm his AI assistant — I can tell you about his skills, education, background, or help you navigate to any section. What would you like to know?`;
+    appendBotMessage(greetMsg);
     setTimeout(() => {
       showQuickReplies([
         "Who is Sanush?",
-        "What are his skills?",
-        "Tell me about his education",
-        "How can I contact him?",
-        "Open Sanush Resume"
+        "View his skills",
+        "Education background",
+        "Contact Sanush",
+        "Sanush Resume ↗"
       ]);
     }, 400);
   }
 
   function getTimeGreeting() {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
     return "Good evening";
   }
 
+  /* ════════════════════════════
+     MESSAGE RENDERING
+  ════════════════════════════ */
   function appendBotMessage(html) {
     const div = document.createElement("div");
     div.className = "msg-bubble bot";
@@ -260,7 +190,7 @@
     const el = document.createElement("div");
     el.className = "typing-indicator";
     el.id = "typing-indicator";
-    el.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    el.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
     messagesEl.appendChild(el);
     scrollToBottom();
     return el;
@@ -272,30 +202,27 @@
   }
 
   function showQuickReplies(options) {
+    // Remove previous quick replies
     document.querySelectorAll(".quick-replies").forEach(el => el.remove());
-
     const wrap = document.createElement("div");
     wrap.className = "quick-replies";
-
-    options.forEach((opt, index) => {
+    options.forEach((opt, i) => {
       const chip = document.createElement("button");
       chip.className = "qr-chip";
       chip.textContent = opt;
-      chip.style.animationDelay = `${index * 0.06}s`;
+      chip.style.animationDelay = `${i * 0.06}s`;
       chip.addEventListener("click", () => {
         wrap.remove();
         handleUserMessage(opt);
       });
-
+      // extend cursor ring
       const curRing = document.getElementById("cur-ring");
       if (curRing) {
         chip.addEventListener("mouseenter", () => curRing.classList.add("big"));
         chip.addEventListener("mouseleave", () => curRing.classList.remove("big"));
       }
-
       wrap.appendChild(chip);
     });
-
     messagesEl.appendChild(wrap);
     scrollToBottom();
   }
@@ -304,252 +231,94 @@
     messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
   }
 
+  /* ════════════════════════════
+     NAVIGATION
+  ════════════════════════════ */
   function handleNavCommand(text) {
     const match = text.match(/\[NAV:([a-z]+)\]/);
-    if (!match) return text;
-
-    const id = match[1];
-    const target = document.getElementById(id);
-    if (target) {
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 400);
-    }
-
-    return text.replace(/\[NAV:[a-z]+\]/g, "").trim();
-  }
-
-  function escapeHtml(text) {
-    const map = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    };
-    return String(text).replace(/[&<>"']/g, char => map[char]);
-  }
-
-  function normalizeText(text) {
-    return String(text || "")
-      .toLowerCase()
-      .replace(/[^\w\s]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function capitalize(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  }
-
-  function safeName(name) {
-    return `<strong>${escapeHtml(name || "there")}</strong>`;
-  }
-
-  function includesAny(text, patterns) {
-    return patterns.some(pattern => hasPhrase(text, pattern));
-  }
-
-  function hasPhrase(text, phrase) {
-    return ` ${text} `.includes(` ${String(phrase || "").trim()} `);
-  }
-
-  function getNavigationReply(normalizedMessage) {
-    const sectionId = Object.keys(SECTION_ALIASES).find(id =>
-      SECTION_ALIASES[id].some(alias => normalizedMessage.includes(alias))
-    );
-
-    if (!sectionId) {
-      return `I can take you to About, Skills, Education, or Contact, ${safeName(userName)}. Just tell me which section you'd like to open.`;
-    }
-
-    const label = capitalize(sectionId === "hero" ? "home" : sectionId);
-    return `Taking you to the ${label} section, ${safeName(userName)}. [NAV:${sectionId}]`;
-  }
-
-  function getTopicMatch(normalizedMessage) {
-    let bestTopic = null;
-    let bestScore = 0;
-
-    TOPIC_RULES.forEach(topic => {
-      const score = topic.keywords.reduce((total, keyword) => {
-        return total + (hasPhrase(normalizedMessage, keyword) ? keyword.split(" ").length : 0);
-      }, 0);
-
-      if (score > bestScore) {
-        bestScore = score;
-        bestTopic = topic;
+    if (match) {
+      const id = match[1];
+      const target = document.getElementById(id);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 400);
       }
-    });
-
-    return bestScore > 0 ? bestTopic : null;
+      // Return text without the nav command
+      return text.replace(/\[NAV:[a-z]+\]/g, "").trim();
+    }
+    return text;
   }
 
-  function getFollowUpReply(normalizedMessage) {
-    if (!lastTopic) return "";
-    if (!includesAny(normalizedMessage, ["tell me more", "more", "details", "detail", "explain", "what else"])) {
-      return "";
-    }
-
-    if (lastTopic === "skills") {
-      return `Sanush's strength is not just knowing tools like ${KNOWLEDGE_BASE.skills.frontend.join(", ")}, but using them to build polished and interactive interfaces. His experience with ${KNOWLEDGE_BASE.skills.creative.join(" and ")} also supports more creative web experiences. [NAV:skills]`;
-    }
-
-    if (lastTopic === "education") {
-      return `His academic journey shows steady growth, from strong school scores to a BCA with a 7.0 CGPA, and now an MCA for deeper technical development. That gives him both practical momentum and a solid learning base. [NAV:education]`;
-    }
-
-    if (lastTopic === "about") {
-      return `A simple way to describe Sanush is that he combines academic grounding with creative front-end interest. He cares about interfaces that feel memorable, not just functional, which suits modern web experience work well. [NAV:about]`;
-    }
-
-    if (lastTopic === "contact") {
-      return `The easiest way to start a conversation with Sanush is by email at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. You can also review his <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a> and <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a> first. [NAV:contact]`;
-    }
-
-    return "";
-  }
-
-  function getLocalReply(message) {
-    const normalized = normalizeText(message);
-
-    if (!normalized) {
-      return `I'm here whenever you're ready, ${safeName(userName)}. Ask me about Sanush's background, skills, education, resume, or contact details.`;
-    }
-
-    if (hasPhrase(normalized, "contact sanush") || hasPhrase(normalized, "how can i contact him")) {
-      lastTopic = "contact";
-      return `You can contact Sanush at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>. His <a href="${KNOWLEDGE_BASE.contact.github}" target="_blank">GitHub</a>, <a href="${KNOWLEDGE_BASE.contact.linkedin}" target="_blank">LinkedIn</a>, and <a href="${KNOWLEDGE_BASE.contact.resume}" target="_blank">Sanush Resume</a> are also available, and he is open to work and collaboration. [NAV:contact]`;
-    }
-
-    if (hasPhrase(normalized, "what are his skills") || hasPhrase(normalized, "view his skills")) {
-      lastTopic = "skills";
-      return `${safeName(userName)}, Sanush works with ${KNOWLEDGE_BASE.skills.frontend.join(", ")}, and also uses ${KNOWLEDGE_BASE.skills.creative.join(" and ")} for creative work. He complements that with ${KNOWLEDGE_BASE.skills.other.join(", ")}, which gives him a solid mix of UI, interaction, and practical development skills. [NAV:skills]`;
-    }
-
-    if (
-      hasPhrase(normalized, "tell me about his education") ||
-      hasPhrase(normalized, "education background") ||
-      hasPhrase(normalized, "tell me about education")
-    ) {
-      lastTopic = "education";
-      return `Sanush is currently pursuing his MCA at Lourdes Matha College of Science and Technology in Trivandrum for 2025-2027. Before that, he completed his BCA at Symbiosis Institute of Computer Studies & Research in Pune with a 7.0 CGPA, and earlier scored 77% in 12th and 87% in 10th. [NAV:education]`;
-    }
-
-    if (
-      hasPhrase(normalized, "what is this site about") ||
-      hasPhrase(normalized, "what is this website about") ||
-      hasPhrase(normalized, "what is this site") ||
-      hasPhrase(normalized, "what is this website")
-    ) {
-      lastTopic = "site";
-      return `This site is Sanush's personal portfolio. It highlights his background, technical skills, education, resume, and contact details, while helping visitors quickly navigate the different sections. [NAV:hero]`;
-    }
-
-    if (includesAny(normalized, ["hello", "hi", "hey", "good morning", "good afternoon", "good evening"])) {
-      return `Hello ${safeName(userName)}. I can tell you about Sanush's background, education, skills, location, resume, and contact details.`;
-    }
-
-    if (includesAny(normalized, ["thank you", "thanks"])) {
-      return `You're welcome, ${safeName(userName)}. If you'd like, I can also take you to a section of the portfolio or answer another question about Sanush.`;
-    }
-
-    if (includesAny(normalized, ["go to", "navigate", "take me", "open section", "show section", "scroll to"])) {
-      lastTopic = "navigation";
-      return getNavigationReply(normalized);
-    }
-
-    const followUpReply = getFollowUpReply(normalized);
-    if (followUpReply) return followUpReply;
-
-    const topic = getTopicMatch(normalized);
-    if (topic) {
-      lastTopic = topic.id;
-      return topic.reply(userName);
-    }
-
-    return `I can help with Sanush's background, skills, education, resume, contact details, and site navigation, ${safeName(userName)}. Try asking "Who is Sanush?", "What are his skills?", "Tell me about his education", or "How can I contact him?"`;
-  }
-
-  function getQuickRepliesForMessage(message) {
-    const normalized = normalizeText(message);
-
-    if (includesAny(normalized, ["skill", "tech", "stack", "react", "javascript"])) {
-      return ["Tell me more", "Education details", "Contact Sanush"];
-    }
-
-    if (includesAny(normalized, ["education", "college", "degree", "mca", "bca"])) {
-      return ["Tell me more", "What are his skills?", "Open Sanush Resume"];
-    }
-
-    if (includesAny(normalized, ["contact", "email", "hire", "linkedin", "github"])) {
-      return ["Open GitHub", "Open LinkedIn", "Send email"];
-    }
-
-    if (includesAny(normalized, ["resume", "cv"])) {
-      return ["What are his skills?", "Tell me about his education", "Contact Sanush"];
-    }
-
-    if (includesAny(normalized, ["who", "about", "background", "sanush"])) {
-      return ["What are his skills?", "Tell me about his education", "Contact Sanush"];
-    }
-
-    return ["Who is Sanush?", "What are his skills?", "How can I contact him?"];
-  }
-
-  function handleQuickAction(text) {
-    if (text === "Open Sanush Resume") {
-      window.open(KNOWLEDGE_BASE.contact.resume, "_blank");
-    } else if (text === "Open GitHub") {
-      window.open(KNOWLEDGE_BASE.contact.github, "_blank");
-    } else if (text === "Open LinkedIn") {
-      window.open(KNOWLEDGE_BASE.contact.linkedin, "_blank");
-    } else if (text === "Send email") {
-      window.open(`mailto:${KNOWLEDGE_BASE.contact.email}`);
-    }
-  }
-
+  /* ════════════════════════════
+     SEND MESSAGE
+  ════════════════════════════ */
   async function handleUserMessage(text) {
     if (!text.trim() || isBotTyping) return;
-
     isBotTyping = true;
     sendBtn.disabled = true;
 
     appendUserMessage(text);
     chatHistory.push({ role: "user", content: text });
 
+    const typingEl = showTyping();
+
     try {
-      showTyping();
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: PORTFOLIO_CONTEXT + `\n\nThe user's name is: ${userName}`,
+          messages: chatHistory
+        })
+      });
+
+      const data = await response.json();
+      removeTyping();
 
       let reply = "";
-
-      try {
-        reply = await getBackendReply();
-      } catch (backendError) {
-        reply = getLocalReply(text);
-
-        if (
-          backendError &&
-          typeof backendError.message === "string" &&
-          (backendError.message.includes("OPENAI_API_KEY") ||
-            backendError.message.includes("GEMINI_API_KEY"))
-        ) {
-          reply += ` <br /><br /><em>Note: the live AI backend is not configured yet. Add a Gemini or OpenAI API key in the server environment to enable real model responses.</em>`;
-        }
+      if (data.content && data.content[0] && data.content[0].text) {
+        reply = data.content[0].text;
+      } else {
+        reply = "I'm having trouble connecting right now. Please try again or reach Sanush directly at <a href='mailto:sasanush86@gmail.com'>sasanush86@gmail.com</a>.";
       }
 
-      removeTyping();
-
+      // Handle navigation
       const cleanReply = handleNavCommand(reply);
+
       chatHistory.push({ role: "assistant", content: reply });
       appendBotMessage(cleanReply);
-      showQuickReplies(getQuickRepliesForMessage(text));
-      handleQuickAction(text);
+
+      // Smart quick replies based on context
+      const lower = text.toLowerCase();
+      if (lower.includes("skill") || lower.includes("tech") || lower.includes("stack")) {
+        setTimeout(() => showQuickReplies(["Tell me more about React", "View Education", "Contact Sanush"]), 300);
+      } else if (lower.includes("education") || lower.includes("study") || lower.includes("college") || lower.includes("degree")) {
+        setTimeout(() => showQuickReplies(["View Skills", "Contact Sanush", "Sanush Resume ↗"]), 300);
+      } else if (lower.includes("contact") || lower.includes("email") || lower.includes("hire") || lower.includes("collaborate")) {
+        setTimeout(() => showQuickReplies(["Open GitHub ↗", "Open LinkedIn ↗", "Send Email ↗"]), 300);
+      } else if (lower.includes("resume") || lower.includes("cv")) {
+        setTimeout(() => showQuickReplies(["Contact Sanush", "View Skills", "Who is Sanush?"]), 300);
+      } else if (lower.includes("about") || lower.includes("who") || lower.includes("sanush")) {
+        setTimeout(() => showQuickReplies(["View his skills", "Education background", "Contact Sanush"]), 300);
+      }
+
+      // Handle special quick reply actions
+      if (text === "Sanush Resume ↗") {
+        window.open("https://docs.google.com/document/d/1NP63upCGfuzwisRGXTUcg31oOQ9g7RU3N-kiwQb_W4Y/edit?tab=t.0", "_blank");
+      } else if (text === "Open GitHub ↗") {
+        window.open("https://github.com/SA-Sanush", "_blank");
+      } else if (text === "Open LinkedIn ↗") {
+        window.open("https://www.linkedin.com/in/sa-sanush/", "_blank");
+      } else if (text === "Send Email ↗") {
+        window.open("mailto:sasanush86@gmail.com");
+      }
+
     } catch (err) {
       removeTyping();
-      appendBotMessage(
-        `Something went wrong, ${safeName(userName)}. Please try again or contact Sanush directly at <a href="mailto:${KNOWLEDGE_BASE.contact.email}">${KNOWLEDGE_BASE.contact.email}</a>.`
-      );
+      appendBotMessage(`Oops! Something went wrong, ${userName}. Please try again or contact Sanush directly at <a href="mailto:sasanush86@gmail.com">sasanush86@gmail.com</a> 📧`);
     }
 
     isBotTyping = false;
@@ -557,24 +326,27 @@
     chatInput.focus();
   }
 
+  /* ════════════════════════════
+     INPUT EVENTS
+  ════════════════════════════ */
   sendBtn.addEventListener("click", () => {
     const val = chatInput.value.trim();
-    if (!val) return;
-
-    chatInput.value = "";
-    autoResizeTextarea();
-    handleUserMessage(val);
-  });
-
-  chatInput.addEventListener("keydown", event => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      const val = chatInput.value.trim();
-      if (!val) return;
-
+    if (val) {
       chatInput.value = "";
       autoResizeTextarea();
       handleUserMessage(val);
+    }
+  });
+
+  chatInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      const val = chatInput.value.trim();
+      if (val) {
+        chatInput.value = "";
+        autoResizeTextarea();
+        handleUserMessage(val);
+      }
     }
   });
 
@@ -582,6 +354,7 @@
 
   function autoResizeTextarea() {
     chatInput.style.height = "auto";
-    chatInput.style.height = `${Math.min(chatInput.scrollHeight, 100)}px`;
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + "px";
   }
+
 })();
